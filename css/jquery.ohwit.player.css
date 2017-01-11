@@ -17,8 +17,8 @@
 }
 :active,:focus{outline:none;}
 
-.video-container {width:100%; position:relative}
-.video-container video,.video-container img {width: 100%;height: 100%;}
+.video-container {width:100%;height: 0; padding-bottom: 56.25%; /* 16:9 */ position:relative;background-color:#000;}
+.video-container video,.video-container img,.video-container canvas {width: 100%;height: 100%;}
 .video-container > * {margin:auto;position: absolute;top:0;right:0;left:0;bottom:0;}
 .play-button {
     border-radius: 50%;
@@ -74,7 +74,51 @@
     padding: 0;
     background-color: transparent;
     cursor: pointer;
+    box-sizing: border-box;
 }
+
+.play-controls .left-controls {
+    width: 35px;
+    padding-left: 5px;
+    z-index:1;
+}
+
+.play-controls .progress-controls {
+    width:100%;
+    padding-left:35px;
+    padding-right:140px;
+    display: table;/*让元素以表格形式渲染*/
+
+}
+.play-controls .function-controls {
+    right:0;
+    width: 140px;
+}
+
+.progress-controls .progress {    
+    width:100%;
+    display:table-cell;/*让元素以表格的单元素格形式渲染*/
+    vertical-align: middle;/*使用元素的垂直对齐*/
+    position:relative;    
+}
+
+.progress > * {
+    width: 16px;
+    height:2px;
+    position: absolute;
+}
+.progress .all-len {
+    width:100%;
+    background-color: #fff;
+}
+.progress  .played {
+    background-color:#ff9a1e;
+    z-index: 3;
+}
+.progress .loaded {
+    background-color:#ccc;
+}
+
 
 .play-control {
     border-left: 18px solid #ffffff;
@@ -91,41 +135,11 @@
     margin-top: 6px;
 }
 
-.play-controls .left-controls {
-    width: 35px;
-    box-sizing: border-box;
-    padding-left: 5px;
-}
 
-.play-controls .progress-controls {
-    left:35px;
-}
-.play-controls .function-controls {
-    right:0;
-    width: 140px;
-}
 
-.progress-controls .progress {
-    height:2px;
-    width:90%;
-    position: absolute;top:0;right:0;left:0;bottom:0;margin: auto;
-    background-color: #fff;
-}
 
-.progress > * {
-    display:block;
-    width: 16px;
-    height: 100%;
-    position: absolute;
-    left:0;
-}
-.progress  .played {
-    background-color:#ff9a1e;
-    z-index: 3;
-}
-.progress .loaded {
-    background-color:#ccc;
-}
+
+
 
 .played .track {
     border-radius:8px;

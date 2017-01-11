@@ -1,3 +1,7 @@
+/**
+* @lisence MIT
+* @copyright yunnysunny<yunnysunny@gmail.com>
+*/
 (function ($) {
     function addZero(time) {
         time = parseInt(time, 10);
@@ -38,12 +42,7 @@
         this.src = options.src || '';
         this.poster = options.poster || '';
         this.width = options.width || '100%';
-        this.height = options.height || ($('body').width() * 9 / 16) + 'px';
-        if (typeof (options.resizeMethod) === 'function') {
-            this.resizeMethod = options.resizeMethod;
-        } else {
-            this.resizeMethod = this._defaultResizeMethod;
-        }
+
         this.id = ('player' + Math.random()).replace('.', '');
         this.attrs = options.attrs || {};
 
@@ -61,7 +60,6 @@
         var $video = $('<video><source /></video>');
         var attrs = {
             'class': '',
-            //'src': this.src,
             id: this.id,
             perload:'auto',
 //            autoplay:true,
@@ -74,9 +72,13 @@
         $video.attr(attrs);
         $video.children('source').attr('src',this.src);
 
-        $parent.height(this.height).append($video);
+        $parent.append($video);
         this._videoDom = $video.get(0);
         this.$video = $video;
+        
+        var $canvas = $('<canvas></canvas>');
+        $parent.append($canvas);
+        this.$canvas = $canvas;
 
         if (this.poster) {
             var $poster = $('<img />');
@@ -106,7 +108,7 @@
 
         var $controller = $(this._getControllerHtml());
         $parent.append($controller);
-        $controller.find('.progress-controls').width($controller.width() - $controller.find('.left-controls').width() - $controller.find('.function-controls').width());
+        //$controller.find('.progress-controls').width($controller.width() - $controller.find('.left-controls').width() - $controller.find('.function-controls').width());
         this.$controller = $controller;
     };
     WhyunPlayer.prototype._getControllerHtml = function() {
@@ -117,6 +119,7 @@
             '</div>' +
             '<div class="progress-controls">' +
                 '<div class="progress">' +
+                    '<div class="all-len"></div>'+
                     '<div class="played"><div class="track" draggable="true"></div></div>' +
                     '<div class="loaded"></div>' +
                 '</div>' +
@@ -293,8 +296,6 @@
         });
 
         $(window).resize(function () {
-            _self.resizeMethod();
-            $progressController.width($controller.width() - $controller.find('.left-controls').width() - $controller.find('.function-controls').width());
         });
         $fullscreenArea.click(function() {
             _self._toggleFullScreen();
@@ -325,19 +326,7 @@
         var $html = $('html');console.log('use custom full api');
        $html.toggleClass('fullscreen');
     };
-    WhyunPlayer.prototype._defaultResizeMethod = function () {
-        var width = $('body').width();
-        var height = width * 9 / 16;
-        var winHeight = window.innerHeight;
-        if (height > winHeight) {
-            height = winHeight;
-            width = winHeight * 16 / 9;
-        }
-        this.width = width;
-        this.height = height;
-        this.$video.width(width);
-        this.parent.height(height);
-    };
+
 
     WhyunPlayer.prototype.setSrc = function (src) {
         this.src = src;
