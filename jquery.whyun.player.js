@@ -45,6 +45,10 @@
 
         this.id = ('player' + Math.random()).replace('.', '');
         this.attrs = options.attrs || {};
+        var canvas = options.canvas;
+        if (canvas) {
+            this.canvas = canvas;
+        }
 
         var ua = window.navigator.userAgent.toLowerCase();
         this.isIos = (/(iphone|ipad|ipod)/i).test(ua);
@@ -69,18 +73,22 @@
         };
         $.extend(attrs,this.attrs);
 
-        $video.attr(attrs);
+        $video.attr(attrs);//视频
         $video.children('source').attr('src',this.src);
 
         $parent.append($video);
         this._videoDom = $video.get(0);
         this.$video = $video;
         
-        var $canvas = $('<canvas></canvas>');
-        $parent.append($canvas);
-        this.$canvas = $canvas;
+        if (this.canvas) {
+            var $canvas = $('<canvas></canvas>');
+            $parent.append($canvas);
+            this.$canvas = $canvas;
+            $video.css({'visibility':'none'});
+        }
+        
 
-        if (this.poster) {
+        if (this.poster) {//海报
             var $poster = $('<img />');
             $poster.attr({
                 src:this.poster
@@ -157,6 +165,8 @@
         var INTERVAL_HIDE_CONTROLLER = 10 * 1000;
         var hideControllerTimer = null;
         var trackWidth = $track.width();
+        
+        var canvas = this.canvas ? this.$canvas.get(0).getContext('2d') : null;
 
         function showAndHideController() {
             if (hideControllerTimer) {
@@ -219,6 +229,15 @@
                 }
             }
         }
+        function draw() {
+            if(player.paused || player.ended) {
+                return false;
+            } 
+            // First, draw it into the backing canvas
+            canvas.drawImage(player,0,0,player.clientWidth,player.clientHeight);
+            // Start over!
+            setTimeout(function(){ draw(); }, 0);
+        }
 
         $playBtn.click(function() {
             playShow();
@@ -262,7 +281,7 @@
                 $played.width(trackWidth);
             }
         }, false);
-        player.addEventListener("loadedmetadata",function() {
+        player.addEventListener("loadedmetadata",function() {console.log(player.videoWidth);
             if (player.duration) {
                 $timeTotal.text(secondsToString(player.duration));
             }
@@ -281,6 +300,12 @@
         player.addEventListener("progress",function() {
             showLoadedPosition();
         });
+        if (this.canvas) {
+            player.addEventListener('play',function() {
+                draw();
+            },false);
+        }
+        
         $progress.click(function(e){//进度条点击
             playToGivenPosition(e);
         });
