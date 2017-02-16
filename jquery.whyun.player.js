@@ -69,6 +69,8 @@
 //            autoplay:true,
             'x-webkit-airplay':"allow",
             'webkit-playsinline':true,
+            'x5-video-player-type' : "h5",
+
             poster: this.poster
         };
         $.extend(attrs,this.attrs);
@@ -84,7 +86,7 @@
             var $canvas = $('<canvas></canvas>');
             $parent.append($canvas);
             this.$canvas = $canvas;
-            $video.css({'visibility':'none'});
+            //$video.css({'object-position':'0px 0px'});
         }
         
 
@@ -166,7 +168,11 @@
         var hideControllerTimer = null;
         var trackWidth = $track.width();
         
-        var canvas = this.canvas ? this.$canvas.get(0).getContext('2d') : null;
+        var canvas =  null;
+        if (this.canvas) {
+            canvas = this.$canvas.get(0).getContext('2d');
+            player.style["object-position"]= "0px 0px";
+        }
 
         function showAndHideController() {
             if (hideControllerTimer) {
@@ -188,7 +194,10 @@
         function playShow() {
             $poster.hide();
             $playBtn.addClass('loading');
-            $video.show();
+            if (!this.canvas) {
+                $video.show();
+            }
+            
             player.play();
             $playControl.addClass('pause');
         }
@@ -270,7 +279,10 @@
             $poster.hide();
             $playBtn.hide();
             $playControl.addClass('pause');
-            $video.show();
+            if (!_self.canvas) {
+                $video.show();
+            }
+            
 
             $timePassed.text(secondsToString(currentTime));
             var percentage =( currentTime  / player.duration);

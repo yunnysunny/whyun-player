@@ -2,7 +2,7 @@
 一个开源的html5的播放器，使用方式很简单。使用自定义播放进度条来统一各个平台上播放器样式。播放器以16：9的比例显示，横竖屏下都保持此比例。
 
 ## 示例
-该播放器需要依赖于jquery，所以在使用前要引入jquery，同时需要引入whyun player的css和js文件，具体代码可以参见[demo文件](https://github.com/yunnysunny/whyun-player/blob/master/demo.html)。
+该播放器需要依赖于jquery，所以在使用前要引入jquery，同时需要引入whyun player的css和js文件，具体代码可以参见[demo文件](https://github.com/yunnysunny/whyun-player/blob/master/demo.html)。效果参见 [在线演示地址](http://silian.whyun.com/whyun-player/demo.html)。
 
 
 ## API
