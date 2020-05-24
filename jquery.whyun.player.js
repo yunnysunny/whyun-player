@@ -5,7 +5,7 @@
 (function ($) {
     function addZero(time) {
         time = parseInt(time, 10);
-        return time < 10 ? "0" + time : time;
+        return time < 10 ? '0' + time : time;
     }
     function secondsToString(seconds) {
         if (!seconds || seconds === Infinity) {
@@ -31,6 +31,23 @@
         var touch = event.changedTouches[event.changedTouches.length - 1];
         return touch.pageX;
     }
+    function parseUrl(url) {
+        try {
+            url = new URL(url);
+        } catch(e) {
+            //
+        }
+        
+        return url;
+    }
+    /**
+     * 
+     * @param {Object} options 
+     * @param {String|Dom|jQuery} options.parent 当前播放器要展现的父层容器，可以传dom选择器、dom对象或者jquery对象
+     * @param {String} options.src  当前播放器的视频播放地址
+     * @param {String} options.poster  当前播放器的海报地址
+     * @param {Boolean} options.debug 是否打印调试日志
+     */
     function WhyunPlayer(options) {
         var parent = options.parent;
         if (typeof (parent) == 'string') {
@@ -40,8 +57,11 @@
         }
         this.parent = parent;
         this.src = options.src || '';
+        this._videoType = options.videoType;
+
         this.poster = options.poster || '';
         this.width = options.width || '100%';
+        this._debug = options.debug;
 
         this.id = ('player' + Math.random()).replace('.', '');
         this.attrs = options.attrs || {};
@@ -52,36 +72,77 @@
 
         var ua = window.navigator.userAgent.toLowerCase();
         this.isIos = (/(iphone|ipad|ipod)/i).test(ua);
+        this._isAndroid = (/android/i).test(ua);
+        this._isMobile = this.isIos || this._isAndroid;
         this.canUseNativeFullApi = (/(qqbrowser|ucbrowser|micromessenger)/i).test(ua);
+        this._shouldUseHlsJsWhenPlayM3u8 = !this._isMobile && window.Hls && Hls.isSupported();
         this._initDom();
         this._addEvent();
     }
+    WhyunPlayer.prototype._debugLog = function() {
+        if (this._debug) {
+            // eslint-disable-next-line no-console
+            console.info.apply(console, arguments);
+        }
+    };
+    WhyunPlayer.prototype._isM3u8 = function() {
+        var urlObj = parseUrl(this.src) || {};
+        var path = (urlObj.pathname || '');
+        var isM3u8Now = false;
+        if (path.indexOf('.m3u8') !== -1) {
+            isM3u8Now = true;
+        }
+        return isM3u8Now;
+    };
+    WhyunPlayer.prototype._renderVideo = function() {
+        var hls = null;
+        var src = this.src;
+        var useHlsJs = false;
+        var $video = this.$video;
+        var video = this._videoDom;
+
+        if (this._isM3u8() && this._shouldUseHlsJsWhenPlayM3u8) {
+            useHlsJs = true;
+            if (hls) {
+                hls.destroy();
+            }
+            hls = new Hls();
+            hls.loadSource(src);
+            var video = $video.get(0);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED,function() {
+                video.play();
+            });
+        }
+        if (!useHlsJs) {
+            $video.children('source').attr('src',src);
+        }
+    };
 
     WhyunPlayer.prototype._initDom = function () {
         var $parent = this.parent;
-        var _self = this;
         $parent.empty().addClass('video-container');
         var $video = $('<video><source /></video>');
         var attrs = {
             'class': '',
             id: this.id,
             perload:'auto',
-//            autoplay:true,
-            'x-webkit-airplay':"allow",
+            //            autoplay:true,
+            'x-webkit-airplay':'allow',
             'webkit-playsinline':true,
-            'x5-video-player-type' : "h5",
+            'x5-video-player-type' : 'h5',
 
             poster: this.poster
         };
         $.extend(attrs,this.attrs);
 
         $video.attr(attrs);//视频
-        $video.children('source').attr('src',this.src);
 
         $parent.append($video);
         this._videoDom = $video.get(0);
         this.$video = $video;
-        
+        this._renderVideo();
+
         if (this.canvas) {
             var $canvas = $('<canvas></canvas>');
             $parent.append($canvas);
@@ -107,8 +168,8 @@
         for (var i=0;i<12;i++) {
             var n = i * 30;
             $loadingContainer.append($('<div></div>').css({
-                    '-webkit-transform':'rotate('+n+'deg) translate(0,-60px)',
-                    transform:'rotate('+n+'deg) translate(0,-60px)'
+                '-webkit-transform':'rotate('+n+'deg) translate(0,-60px)',
+                transform:'rotate('+n+'deg) translate(0,-60px)'
             }));
         }
 
@@ -122,7 +183,7 @@
         this.$controller = $controller;
     };
     WhyunPlayer.prototype._getControllerHtml = function() {
-//        var player = this._videoDom;
+        //        var player = this._videoDom;
         var html = '<div class="play-controls">' +
             '<div class="left-controls">' +
                 '<div class="play-control"></div>' +
@@ -141,11 +202,11 @@
                 '</div>' +
 
                 '<div class="fullscreen-wrap"><div class="fullscreen-control"></div></div>' +
-//                    '<div class="sound"><a href="#sound">mute</a></div>' +
+        //                    '<div class="sound"><a href="#sound">mute</a></div>' +
             '</div>' +
             '</div>';
         return html;
-    }
+    };
     WhyunPlayer.prototype._addEvent = function () {
         var _self = this;
         var $video = this.$video;
@@ -171,7 +232,7 @@
         var canvas =  null;
         if (this.canvas) {
             canvas = this.$canvas.get(0).getContext('2d');
-            player.style["object-position"]= "0px 0px";
+            player.style['object-position']= '0px 0px';
         }
 
         function showAndHideController() {
@@ -186,8 +247,8 @@
         showAndHideController();
 
         function pauseShow() {
-//            $video.hide();
-//            $poster.show();
+            //            $video.hide();
+            //            $poster.show();
             $playBtn.removeClass('loading').show();
             $playControl.removeClass('pause');
         }
@@ -210,7 +271,7 @@
             var parentOffsetLeft = $progressController.offset().left;
             //or $(this).offset(); if you really just want the current element's offset
             var relX = pageX - parentOffsetLeft;
-            console.log(e.type,relX);
+            _self._debugLog(e.type,relX);
             return relX;
         }
 
@@ -261,13 +322,13 @@
 
 
         player.addEventListener('error', function() {
-            console.log('emit error events');
+            _self._debugLog('emit error events');
             pauseShow();
         }, false);
 
 
         player.addEventListener('pause', function() {
-            console.log('emit pause events');
+            _self._debugLog('emit pause events');
             pauseShow();
         }, false);
 
@@ -293,23 +354,23 @@
                 $played.width(trackWidth);
             }
         }, false);
-        player.addEventListener("loadedmetadata",function() {console.log(player.videoWidth);
+        player.addEventListener('loadedmetadata',function() {_self._debugLog(player.videoWidth);
             if (player.duration) {
                 $timeTotal.text(secondsToString(player.duration));
             }
         });
-        player.addEventListener("durationchange", function() {
-                if (player.duration) {
-                    $timeTotal.text(secondsToString(player.duration));
-                }
+        player.addEventListener('durationchange', function() {
+            if (player.duration) {
+                $timeTotal.text(secondsToString(player.duration));
+            }
         }, false);
-        player.addEventListener("loadeddata",function() {
+        player.addEventListener('loadeddata',function() {
             showLoadedPosition();
         },false);
-        player.addEventListener("canplaythrough",function() {
+        player.addEventListener('canplaythrough',function() {
             showLoadedPosition();
         },false);
-        player.addEventListener("progress",function() {
+        player.addEventListener('progress',function() {
             showLoadedPosition();
         });
         if (this.canvas) {
@@ -329,7 +390,7 @@
             playToGivenPosition(e);
         });
         this.parent.on('mouseenter touchstart',function(e) {//触摸播放器，显示进度条
-            showAndHideController();console.log('player touch');
+            showAndHideController();_self._debugLog('player touch');
         });
 
         $(window).resize(function () {
@@ -340,31 +401,33 @@
     };
     WhyunPlayer.prototype._toggleFullScreen = function () {
         if (this.canUseNativeFullApi) {
-            console.log('use native full api');
+            this._debugLog('use native full api');
             var elem = this._videoDom;
 
             if (elem.requestFullscreen) {
-                console.log('requestFullscreen');
+                this._debugLog('requestFullscreen');
                 elem.requestFullscreen();
             } else if (elem.mozRequestFullScreen) {
-                console.log('requestFullscreen2');
+                this._debugLog('requestFullscreen2');
                 elem.mozRequestFullScreen();
             } else if (elem.webkitRequestFullscreen) {
-                console.log('requestFullscreen3');
+                this._debugLog('requestFullscreen3');
                 elem.webkitRequestFullscreen();
             } else if (elem.webkitEnterFullscreen) {
-                console.log('webkitEnterFullscreen');
+                this._debugLog('webkitEnterFullscreen');
                 elem.webkitEnterFullscreen();
             } else {
-                console.warn('not support full api');
+                this._debugLog('not support full api');
             }
             return;
         }
-        var $html = $('html');console.log('use custom full api');
-       $html.toggleClass('fullscreen');
+        var $html = $('html');this._debugLog('use custom full api');
+        $html.toggleClass('fullscreen');
     };
 
-
+    /**
+     * @param {String} src 要设置的视频播放地址
+     */
     WhyunPlayer.prototype.setSrc = function (src) {
         this.src = src;
         var player = this._videoDom;
@@ -372,11 +435,12 @@
         this.$playBtn.addClass('loading').show();
         this.$video.children('source').attr('src', src);
         player.currentTime = 0;
-        player.load();
-        player.play();
+        this._renderVideo();
         return this;
     };
-
+    /**
+     * @param {String} poster 要设置的海报地址
+     */
     WhyunPlayer.prototype.setPoster = function(poster) {
         this.$poster.attr('src', poster);
         this.$video.attr('poster', poster);
@@ -385,5 +449,5 @@
     $.whyun = $.extend($.whyun,{});
     $.whyun.player = function(option) {
         return new WhyunPlayer(option);
-    }
+    };
 })(jQuery);

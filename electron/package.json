@@ -1,0 +1,30 @@
+{
+  "name": "whyplayer",
+  "version": "0.1.0",
+  "description": "A minimal Electron application",
+  "main": "app.js",
+  "scripts": {
+    "start": "electron .",
+    "startf": "electron ."
+  },
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "devDependencies": {
+    "electron": "^4.1.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/yunnysunny/whyun-player.git"
+  },
+  "author": "yunnysunny",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yunnysunny/whyun-player/issues"
+  },
+  "homepage": "https://github.com/yunnysunny/whyun-player#readme"
+}
