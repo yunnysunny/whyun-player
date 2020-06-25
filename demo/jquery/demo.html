@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="css/jquery.ohwit.player.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/jquery.ohwit.player.css" />
 </head>
 
 <body class="">
@@ -14,14 +14,15 @@
 </div>
   <script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-  <script type="text/javascript" src="jquery.whyun.player.js"></script>
+  <script type="text/javascript" src="../../lib/jquery/jquery.whyun.player.js"></script>
   <script>
       var player = $.whyun.player({
             canvas : false,
             parent:$('#vc'),
             //src:'http://video.webmfiles.org/elephants-dream.webm',
             src:'http://techslides.com/demos/sample-videos/small.mp4',
-            poster:'https://images.pexels.com/photos/241820/pexels-photo-241820.jpeg?w=940&h=650&auto=compress&cs=tinysrgb'
+            poster:'https://images.pexels.com/photos/241820/pexels-photo-241820.jpeg?w=940&h=650&auto=compress&cs=tinysrgb',
+            debug:true
       });
       $('#changeBtn').click(function() {
           player.setSrc($('#videoSrc').val());

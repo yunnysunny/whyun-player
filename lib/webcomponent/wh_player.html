@@ -1,0 +1,70 @@
+<template>
+    <link rel="stylesheet" type="text/css" href="../../css/jquery.ohwit.player.css" />
+    <video x-webkit-airplay webkit-playsinline x5-video-player-type="h5" perload="auto">
+        <source />
+    </video>
+    <div class="play-button show">
+        <div class="triangle"></div>
+        <div class="uil-default-css" style="transform:scale(0.4)"></div>
+    </div>
+    <div class="play-controls">
+        <div class="left-controls">
+            <div class="play-control"></div>
+        </div>
+        <div class="progress-controls">
+            <div class="progress">
+                <div class="all-len"></div>
+                <div class="played"><div class="track" draggable="true"></div></div>
+                <div class="loaded"></div>
+            </div>
+
+        </div>
+        <div class="function-controls">
+            <div class="time-wrap">
+                <span class="time-passed">00:00</span><span>/</span><span class="time-total">00:00</span>
+            </div>
+            <div class="fullscreen-wrap">
+                <div class="fullscreen-control"></div>
+            </div>
+            <!--div class="sound"><a href="#sound">mute</a></div-->
+        </div>
+    </div>
+</template>
+<script>
+    class WhyunPlayer extends HTMLElement {
+        constructor() {
+            super();
+            var template =    (document.currentScript || document._currentScript).ownerDocument.querySelector('template');
+
+            const root = this.attachShadow({mode: 'open'/*, delegatesFocus: true*/});
+            var clone = document.importNode(template.content, true);
+
+            root.appendChild(clone);
+            this._root = root;
+            this._addEvent();
+        }
+
+        set src(link) {
+            this._root.querySelector('source').setAttribute('src', src);
+        }
+        set poster(link) {
+            this._root.querySelector('video').setAttribute('poster',link);
+        }
+
+        connectedCallback() {
+            //元素每次插入到 DOM 时都会调用。用于运行安装代码，例如获取资源或渲染。一般来说，您应将工作延迟至合适时机执行。
+            console.log('connectedCallback');
+        }
+        attributeChangedCallback(attrName, oldVal, newVal) {
+            //如果有人对您的元素调用 el.setAttribute(...)，浏览器将立即调用 attributeChangedCallback()。
+            console.log(attrName, oldVal, newVal);
+        }
+        disconnectedCallback() {
+            // 从 DOM 中移除元素（例如用户调用 el.remove()）后，您会立即收到 disconnectedCallback()
+        }
+        _addEvent() {
+
+        }
+    }
+    document.define('whyun-player',WhyunPlayer);
+</script>

@@ -32,7 +32,7 @@ function createWindow() {
     });
 
     // 加载首页
-    mainWindow.loadURL('file://' + __dirname + '/../demo.html#debug=1');
+    mainWindow.loadURL('file://' + __dirname + '/../demo/jquery/demo.html#debug=1');
 
     // 创建窗体时打开控制台
     //   mainWindow.webContents.openDevTools()
