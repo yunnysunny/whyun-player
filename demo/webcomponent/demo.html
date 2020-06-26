@@ -12,7 +12,7 @@
 </head>
 
 <body class="">
-<whyun-player src="http://techslides.com/demos/sample-videos/small.mp4" id="whyunPlayer"></whyun-player>
+<whyun-player debug src="http://techslides.com/demos/sample-videos/small.mp4" id="whyunPlayer"></whyun-player>
 <div style="height:800px;width:100%;background-color:blue;padding-top: 20px;padding-left:20px;box-sizing: border-box;">
     
     <input type="text" id="videoSrc" style="width: 200px;" />
@@ -23,9 +23,9 @@
   <script>
       var player = document.getElementById('whyunPlayer');
 
-      document.querySelector('#changeBtn').click(function() {
+      document.querySelector('#changeBtn').addEventListener('click', function() {
           player.src = (document.querySelector('#videoSrc').value);
-      });
+      }, false);
   </script>
 </body>
 </html>
