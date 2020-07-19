@@ -1,6 +1,6 @@
 {
     "name": "whyplayer",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "Html5 播放器",
     "main": "jquery.whyun.player.js",
     "keywords": [
