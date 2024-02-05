@@ -1,0 +1,67 @@
+repo_name: yunnysunny/whyun-player
+report_id: 5c835d1c18f3675e917c6e4a62ac7ca5
+version: 0.1
+repo_type: Public
+timestamp: '2024-02-05T15:58:14+00:00'
+requested_by: yunnysunny
+provider: github
+branch: master
+detected_tools_count: 5
+tools:
+- name: CSS 3
+  description: The latest evolution of the Cascading Style Sheets language
+  website_url: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/6727/css.png
+  detection_source_url: https://github.com/yunnysunny/whyun-player
+  detection_source: Repo Metadata
+- name: JavaScript
+  description: Lightweight, interpreted, object-oriented language with first-class
+    functions
+  website_url: https://developer.mozilla.org/en-US/docs/Web/JavaScript
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/1209/javascript.jpeg
+  detection_source_url: https://github.com/yunnysunny/whyun-player
+  detection_source: Repo Metadata
+- name: Electron
+  description: Build cross platform desktop apps with JavaScript, HTML, and CSS
+  website_url: http://electron.atom.io/
+  version: 9.0.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Cross-Platform Desktop Development
+  image_url: https://img.stackshare.io/service/2946/default_18a71b65e69d7aef5f218ae07f64eb6e1594c444.jpg
+  detection_source_url: https://github.com/yunnysunny/whyun-player/blob/master/electron/package.json
+  detection_source: electron/package.json
+  last_updated_by: yunnysunny
+  last_updated_on: 2020-05-24 09:44:40.000000000 Z
+- name: Git
+  description: Fast, scalable, distributed revision control system
+  website_url: http://git-scm.com/
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Version Control System
+  image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source_url: https://github.com/yunnysunny/whyun-player
+  detection_source: Repo Metadata
+- name: npm
+  description: The package manager for JavaScript.
+  website_url: https://www.npmjs.com/
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Front End Package Manager
+  image_url: https://img.stackshare.io/service/1120/lejvzrnlpb308aftn31u.png
+  detection_source_url: https://github.com/yunnysunny/whyun-player/blob/master/electron/package.json
+  detection_source: electron/package.json
+  last_updated_by: yunnysunny
+  last_updated_on: 2020-05-24 07:54:54.000000000 Z
