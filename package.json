@@ -1,22 +1,25 @@
 {
-    "name": "whyplayer",
-    "version": "0.2.0",
-    "description": "Html5 播放器",
-    "main": "jquery.whyun.player.js",
-    "keywords": [
-      "html5",
-      "player",
-      "video"
-    ],
-    "repository": {
-      "type": "git",
-      "url": "git+ssh://git@github.com/yunnysunny/whyun-player.git"
-    },
-    "author": "yunnysunny",
-    "license": "MIT",
-    "bugs": {
-      "url": "https://github.com/yunnysunny/whyun-player/issues"
-    },
-    "homepage": "https://github.com/yunnysunny/whyun-player#readme"
-  }
-  
+  "name": "whyplayer",
+  "version": "0.2.0",
+  "description": "Html5 播放器",
+  "main": "jquery.whyun.player.js",
+  "keywords": [
+    "html5",
+    "player",
+    "video"
+  ],
+  "scripts": {
+    "cp": "cp lib/webcomponent/whyun_player.js demo/webcomponent/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/yunnysunny/whyun-player.git"
+  },
+  "author": "yunnysunny",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yunnysunny/whyun-player/issues"
+  },
+  "homepage": "https://github.com/yunnysunny/whyun-player#readme"
+
+}
