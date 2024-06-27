@@ -9,7 +9,7 @@
     "video"
   ],
   "scripts": {
-    "cp": "cp lib/webcomponent/whyun_player.js demo/webcomponent/ && cp css demo/webcomponent/"
+    "cp": "cp lib/webcomponent/whyun_player.js demo/webcomponent/ && cp -r css demo/webcomponent/"
   },
   "repository": {
     "type": "git",
